@@ -1,0 +1,252 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Aug 12, 2023, 2:31:26 PM
+    Author     : Admins
+*/
+
+
+body{
+    background-color: #F5F5F5;
+}
+
+.bangtin{
+    margin: 30px 100px;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.bviet{
+    width: 45%;
+    margin: 10px;
+    background-color: white;
+    display: flex;
+}
+.bviet_anh{
+    margin: 10px;
+    width: 40%;
+}
+.bviet_ndung{
+    margin: 10px;
+    width: 55%;
+}
+
+.bviet_anh img{
+    width: 100%;
+}
+.bviet_ndung > a:first-child{
+    text-decoration: none;
+    text-align: center;
+    color:  lightcoral;
+    font-size: 18px;
+    font-weight: bold;
+}
+.chitiettin{
+    margin: 30px 100px;
+    flex-wrap: wrap;
+    display: flex;
+}
+.chitiettin-col1{
+    width: 63%;
+    background-color: white;
+}
+.chitiettin-col2{
+    width: 35%;
+    margin-left: 20px;
+    display: block;
+}
+.ct-thtinngdung{
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px;
+}
+.ct-tinnoibat{
+    padding: 10px;
+    background-color: white;
+    margin-top: 25px;
+    height: 250px;
+    border-radius: 8px;
+}
+.chitiettin-col2 img{
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.chitiettin-col2 p{
+    margin-bottom: 0px;
+}
+.ct-anh{
+    padding: 30px;
+    background-color: black;
+}
+.ndung-chitiet{
+    padding: 30px;
+    font-size: 16px;
+}
+
+.chitiet-3tt{
+    padding-right: 20px;
+    display: flex;
+    flex-flow: nowrap;
+    justify-content: space-between;
+}
+.bt-docthem {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 18px;
+    transition: all 0.5s;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.bt-docthem span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.bt-docthem span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.bt-docthem:hover span {
+    padding-right: 25px;
+}
+
+.bt-docthem:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.dacdiemtin th{
+    width: 35%;
+}
+
+/*-----ĐĂNG BÀI-----*/
+.body-dangbai{
+    background-color: #F5F5F5;
+    padding: 30px 100px;
+}
+.dangbai{
+    display: flex;
+}
+
+.dangbai-col1{
+    width: 60%;
+    margin-right: 20px;
+    background-color: white;
+}
+.dangbai-col1 p{
+    font-size: 18px;
+    font-weight: 500;
+}
+.dangbai-col2{
+    width: 35%;
+    background-color: white;
+    height: 100%;
+}
+.dangbai-tincodinh{
+    padding-top:20px;
+    padding-left: 20px;
+}
+.dangbai-tincodinh input{
+    border: hidden;
+    background-color: white;
+}
+.dangbai-tinnhaplieu{
+    padding: 20px;
+}
+.dangbai-tinnhaplieu input{
+    height: 40px;
+    border: 0.5px solid grey;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+input{
+    text-indent: 10px;
+}
+.catngang{
+    background-color: darkblue;
+    height: 50px;
+}
+.input-bigsize input{
+    width: 100%;
+}
+.input-bigsize textarea{
+    width: 100%;
+}
+.input-smallsize {
+    display: inline-block;
+}
+.input-smallsize1{
+    margin-right: 50px;
+}
+.input-smallsize input{
+    width: 100%;
+}
+
+
+/*-----TRANG CÁ NHÂN-----*/
+.body-trangcanhan{
+    background-color: #F5F5F5;
+    padding: 30px 100px;
+    width: 100%;
+}
+.trangcanhan{
+    display: flex;
+    justify-content: space-around;
+}
+.trangcanhan-col1{
+    width: 25%;
+    height: 250px;
+}
+.trangcanhan-col2 {
+    width: 70%;
+    background-color: white;
+
+}
+.tincanhan{
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1.5px solid grey;
+    padding: 5px;
+
+}
+.tincanhan-anh{
+    width: 30%;
+}
+.tincanhan-anh img{
+    width: 100%;
+    height: 100%;
+}
+.tincanhan-noidung{
+    width: 70%;
+    margin: 0px 15px;
+    
+}
+.tincanhan-noidung th{
+    width:30%;
+}
+.thongtincanhan{
+    background-color: white;
+    padding: 20px 20px;
+    margin: 0 auto;
+
+}
+.canhanhoa{
+    display: flex;
+    justify-content: space-between;
+
+}

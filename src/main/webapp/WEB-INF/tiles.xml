@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this template
+-->
+
+
+<!DOCTYPE tiles-definitions PUBLIC "-//ApacheSoftware Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <definition name="baseLayout"
+                template="/WEB-INF/layout/base.jsp">
+        <put-attribute name="title" value="" />
+        <put-attribute name="header"
+                       value="/WEB-INF/layout/header.jsp" />
+        <put-attribute name="content" value="" />
+        <put-attribute name="footer"
+                       value="/WEB-INF/layout/footer.jsp" />
+    </definition>
+    
+    <definition name="index" extends="baseLayout">
+        <put-attribute name="title" value="Trang chủ" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/index.jsp" />
+    </definition>
+        <definition name="canhan" extends="baseLayout">
+        <put-attribute name="title" value="Trang cá nhân" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/canhan.jsp" />
+    </definition>
+    
+    <definition name="admin" extends="baseLayout">
+        <put-attribute name="title" value="Trang chủ" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/admin.jsp" />
+    </definition>
+    
+    <definition name="dangnhap"
+                template="/WEB-INF/pages/dangnhap.jsp">
+    </definition>
+    
+    <definition name="dangki"
+                template="/WEB-INF/pages/dangki.jsp">
+    </definition>
+    
+    <definition name="dangbai" extends="baseLayout">
+        <put-attribute name="title" value="Trang đăng bài" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/dangbai.jsp" />
+    </definition>
+    
+    <definition name="capnhat" extends="baseLayout">
+        <put-attribute name="title" value="Trang cập nhật" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/capnhat.jsp" />
+    </definition>
+    
+    <definition name="thtin_bviet" extends="baseLayout">
+        <put-attribute name="title" value="Chi tiết tin"/>
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/thtin_bviet.jsp" />
+    </definition>
+    
+    <definition name="doimatkhau" extends="baseLayout">
+        <put-attribute name="title" value="Đổi mật khẩu"/>
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/doimatkhau.jsp" />
+    </definition>
+
+    
+</tiles-definitions>
