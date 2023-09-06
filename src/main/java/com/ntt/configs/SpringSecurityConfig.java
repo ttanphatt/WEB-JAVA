@@ -7,6 +7,7 @@ package com.ntt.configs;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import java.text.SimpleDateFormat;
+import java.util.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,7 +35,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
     "com.ntt.repository",
-    "com.ntt.service", 
+    "com.ntt.service",
     "com.ntt.controllers",
     "com.ntt.components"})
 @Order(2)
@@ -40,6 +43,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private Environment env;
+    
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -70,9 +74,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.logout().logoutSuccessUrl("/dangnhap");
         http.exceptionHandling().accessDeniedPage("/dangnhap?accessDenied");
-        http.authorizeRequests().antMatchers("/").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/canhan").access("hasAnyRole('ROLE_CHUTRO', 'ROLE_KHACHHANG') and principal.kiemDuyet == 'KIEM_DUYET_2'")
+                .antMatchers("/").permitAll()
                 .antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
-
         http.csrf().disable();
 
     }
@@ -88,9 +93,43 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         return c;
     }
+
+    @Bean
+    public JavaMailSender javaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("2051050488thuyen@ou.edu.vn");
+        mailSender.setPassword("thuyen22052002##");
+
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        mailSender.setJavaMailProperties(properties);
+
+        return mailSender;
+
+    }
+
     @Bean
     public SimpleDateFormat simpleDateFormat() {
         return new SimpleDateFormat("yyyy-MM-dd");
     }
 
+//    @Bean
+//    public JavaMailSender javaMailSender() {
+//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+//        mailSender.setHost("smtp.gmail.com");
+//        mailSender.setPort(587);
+//        mailSender.setUsername("2051050488thuyen@ou.edu.vn");
+//        mailSender.setPassword("thuyen22052002##");
+//
+//        Properties properties = new Properties();
+//        properties.put("mail.smtp.auth", "true");
+//        properties.put("mail.smtp.starttls.enable", "true");
+//        mailSender.setJavaMailProperties(properties);
+//
+//        return mailSender;
+//
+//    }
 }

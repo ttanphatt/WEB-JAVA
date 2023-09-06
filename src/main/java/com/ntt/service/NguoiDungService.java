@@ -18,6 +18,9 @@ public interface NguoiDungService {
     NguoiDung getTaiKhoanbyTenTK(String username);
     boolean authUser(String tenTaiKhoan, String matKhau);
     NguoiDung addUser(Map<String, String> params, MultipartFile avatar);
+//            , MultipartFile hinhAnh);
     Object getNgDungById(int id);
     NguoiDung doiMatKhau(Map<String, String> params);
+    List<NguoiDung> getNgDungAll();
+
 }

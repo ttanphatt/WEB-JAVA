@@ -4,7 +4,10 @@
  */
 package com.ntt.repository.impl;
 
+import com.ntt.pojo.BaiViet;
 import com.ntt.pojo.BinhLuan;
+import com.ntt.pojo.Follow;
+import com.ntt.pojo.NguoiDung;
 import com.ntt.repository.BinhLuanRepository;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +35,8 @@ public class BinhLuanRepositoryImpl implements BinhLuanRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
+    @Autowired
+    private BinhLuanRepository binhLuanRepo;
 
     @Override
     public List<BinhLuan> getBinhLuan(int idBaiViet) {
@@ -66,31 +71,17 @@ public class BinhLuanRepositoryImpl implements BinhLuanRepository {
         return false;
     }
 
-    @Override
-    public List<Object> getBinhLuanByBV(int bvId) {
-       Session s = this.factory.getObject().getCurrentSession();
-        CriteriaBuilder b = s.getCriteriaBuilder();
-        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
-        List<Predicate> predicates = new ArrayList<>();
-        Root rComment = q.from(BinhLuan.class);
-        q.select(rComment);
-
-        Predicate p = b.equal(rComment.get("bvId"), bvId);
-        predicates.add(p);
-        q.where(predicates.toArray(Predicate[]::new));
-
-        Query query = s.createQuery(q);
-        return query.getResultList();
-        
-    }
-
+    
     @Override
     public BinhLuan addOrUpdateBinhLuan(BinhLuan binhluan) {
-         Session s = this.factory.getObject().getCurrentSession();
+        Session s = this.factory.getObject().getCurrentSession();
         try {
             if (binhluan.getId() == null) {
+                Date current = new Date();
+                binhluan.setNgayBinhLuan(current);
                 s.save(binhluan);
                 System.out.println("Thêm bình luận thành công!!");
+
             } else {
                 s.update(binhluan);
                 System.out.println("Thêm bình luận thất bại!!");
@@ -100,14 +91,97 @@ public class BinhLuanRepositoryImpl implements BinhLuanRepository {
             System.out.println(ex.getMessage());
             return null;
         }
+    }    
+    
+    @Override
+    public List<Object> getBinhLuanByBV(int idBaiViet) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
+        List<Predicate> predicates = new ArrayList<>();
+        Root rComment = q.from(BinhLuan.class);
+        q.select(rComment);
+
+        Predicate p = b.equal(rComment.get("idBaiViet"), idBaiViet);
+        predicates.add(p);
+        q.where(predicates.toArray(Predicate[]::new));
+
+        Query query = s.createQuery(q);
+        return query.getResultList();
+
     }
+
 
     @Override
     public List<Object> getBinhLuanByReply(int reply) {
+        Session s = this.factory.getObject().openSession();
+        Query q = s.createQuery("FROM BinhLuan where reply = :reply");
+        q.setParameter("reply", reply);
+        return q.getResultList();
     }
 
     @Override
     public boolean deleteBinhLuan(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        BinhLuan binhluan = this.binhLuanRepo.getBinhLuanById(id);
+        try {
+            s.delete(binhluan);
+            return true;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return false;
+        }
     }
 
+    @Override
+    public List<BinhLuan> getBinhLuanByNguoiDung(NguoiDung idNguoiDung) {
+        Session s = this.factory.getObject().getCurrentSession();
+        org.hibernate.query.Query q = s.createQuery("FROM BinhLuan WHERE idNguoiDung= :idNguoiDung");
+        q.setParameter("idNguoiDung", idNguoiDung);
+        return q.getResultList();
+    }
+
+    @Override
+    public BinhLuan getBinhLuanById(int idBinhLuan) {
+        Session s = this.factory.getObject().getCurrentSession();
+        org.hibernate.query.Query q = s.createQuery("FROM BinhLuan WHERE id= :i");
+        q.setParameter("i", idBinhLuan);
+        return (BinhLuan) q.getSingleResult();
+    }
+
+    @Override
+    public boolean updateBinhLuan(BinhLuan binhLuan) {
+        Session s = this.factory.getObject().getCurrentSession();
+        try {
+            s.update(binhLuan);
+            return true;
+        } catch (HibernateException e) {
+            System.err.println(e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public void saveBinhLuan(BinhLuan binhLuan) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.save(binhLuan);
+    }
+
+    @Override
+    public void deleteBinhLuanByBaiViet(BaiViet baiViet) {
+        Session session = factory.getObject().getCurrentSession();
+        String hql = "DELETE FROM BinhLuan bl WHERE bl.idBaiViet = :baiViet";
+        session.createQuery(hql)
+                .setParameter("baiViet", baiViet)
+                .executeUpdate();
+    }
+
+    @Override
+    public void deleteBinhLuanByNguoiDung(NguoiDung nguoidung) {
+        Session session = factory.getObject().getCurrentSession();
+        String hql = "DELETE FROM BinhLuan bl WHERE bl.idNguoiDung = :nguoidung";
+        session.createQuery(hql)
+                .setParameter("nguoidung", nguoidung)
+                .executeUpdate();
+    }
 }

@@ -16,19 +16,27 @@ Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this 
         <put-attribute name="footer"
                        value="/WEB-INF/layout/footer.jsp" />
     </definition>
-    
+    <definition name="baseLayoutAdmin"
+                template="/WEB-INF/layout/baseAdmin.jsp">
+        <put-attribute name="title" value="" />
+        <put-attribute name="headerAdmin"
+                       value="/WEB-INF/layout/headerAdmin.jsp" />
+        <put-attribute name="content" value="" />
+        <put-attribute name="footer"
+                       value="/WEB-INF/layout/footer.jsp" />
+    </definition>
     <definition name="index" extends="baseLayout">
         <put-attribute name="title" value="Trang chủ" />
         <put-attribute name="content"
                        value="/WEB-INF/pages/index.jsp" />
     </definition>
-        <definition name="canhan" extends="baseLayout">
+    <definition name="canhan" extends="baseLayout">
         <put-attribute name="title" value="Trang cá nhân" />
         <put-attribute name="content"
                        value="/WEB-INF/pages/canhan.jsp" />
     </definition>
     
-    <definition name="admin" extends="baseLayout">
+    <definition name="admin" extends="baseLayoutAdmin">
         <put-attribute name="title" value="Trang chủ" />
         <put-attribute name="content"
                        value="/WEB-INF/pages/admin.jsp" />
@@ -54,17 +62,49 @@ Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this 
                        value="/WEB-INF/pages/capnhat.jsp" />
     </definition>
     
+    <definition name="capnhattaikhoan" extends="baseLayout">
+        <put-attribute name="title" value="Trang cập nhật tài khoản" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/capnhattaikhoan.jsp" />
+    </definition>
+    
     <definition name="thtin_bviet" extends="baseLayout">
         <put-attribute name="title" value="Chi tiết tin"/>
         <put-attribute name="content"
                        value="/WEB-INF/pages/thtin_bviet.jsp" />
     </definition>
     
-    <definition name="doimatkhau" extends="baseLayout">
-        <put-attribute name="title" value="Đổi mật khẩu"/>
+    
+    <definition name="adminmonth" extends="baseLayoutAdmin">
+        <put-attribute name="title" value="Trang cập nhật" />
         <put-attribute name="content"
-                       value="/WEB-INF/pages/doimatkhau.jsp" />
+                       value="/WEB-INF/pages/adminmonth.jsp" />
     </definition>
-
+    <definition name="adminquarter" extends="baseLayoutAdmin">
+        <put-attribute name="title" value="Trang cập nhật" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/adminquarter.jsp" />
+    </definition>
+    <definition name="bando" extends="baseLayout">
+        <put-attribute name="title" value="Chi tiết tin"/>
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/bando.jsp" />
+    </definition>
+    <definition name="adminduyetbai" extends="baseLayoutAdmin">
+        <put-attribute name="title" value="Trang cập nhật" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/adminduyetbai.jsp" />
+    </definition>
+    <definition name="adminduyettaikhoan" extends="baseLayoutAdmin">
+        <put-attribute name="title" value="Trang cập nhật" />
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/adminduyettaikhoan.jsp" />
+    </definition>
+    
+    <definition name="thtin_taiKhoan" extends="baseLayoutAdmin">
+        <put-attribute name="title" value="Chi tiết tin"/>
+        <put-attribute name="content"
+                       value="/WEB-INF/pages/thtin_taiKhoan.jsp" />
+    </definition>
     
 </tiles-definitions>

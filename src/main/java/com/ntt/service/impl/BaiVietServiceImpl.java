@@ -50,8 +50,8 @@ public class BaiVietServiceImpl implements BaiVietService {
     private LoaiTaiKhoanRepository LoaiTaiKhoanRepository;
 
     @Override
-    public List<BaiViet> getBaiViet() {
-        return this.baivietRepo.getBaiViet();
+    public List<BaiViet> getBaiVietTK(String address, BigDecimal price, Integer soNguoi) {
+        return this.baivietRepo.getBaiVietTK(address, price, soNguoi);
     }
 
     @Override
@@ -62,11 +62,13 @@ public class BaiVietServiceImpl implements BaiVietService {
 
             if (baiviet.getIdNguoiDung().getIdLoaiTaiKhoan().getId() == 2) {
 
-                Map res = this.cloudinary.uploader().upload(baiviet.getFile().getBytes(),
+                Map res = this.cloudinary.uploader().upload(baiviet.getFile2().getBytes(),
                         ObjectUtils.asMap("resource_type", "auto"));
                 baiviet.setHinhAnh(res.get("secure_url").toString());
                 baiviet.setNgayDang(new Date());
-
+            }
+            if (baiviet.getIdNguoiDung().getIdLoaiTaiKhoan().getId() == 3) {
+                baiviet.setNgayDang(new Date());
             }
 
         } catch (IOException ex) {
@@ -83,7 +85,6 @@ public class BaiVietServiceImpl implements BaiVietService {
     @Override
     public BaiViet loadBaiViet(String tenBaiViet) {
         List<BaiViet> baiviets = this.getBaiViet2(tenBaiViet);
-
         if (baiviets.isEmpty()) {
             throw new UsernameNotFoundException("Bài Viết Không Tồn Tại!!!");
         }
@@ -92,11 +93,6 @@ public class BaiVietServiceImpl implements BaiVietService {
         baiviet.getIdNguoiDung().getTenNguoiDung();
 
         return new BaiViet();
-    }
-
-    @Override
-    public Object getBaiVietById(int id) {
-        return this.baivietRepo.getBaiVietById(id);
     }
 
     @Override
@@ -116,26 +112,24 @@ public class BaiVietServiceImpl implements BaiVietService {
 
     @Override
     public boolean updateBaiViet(BaiViet baiviet) {
-        if (!baiviet.getFile().isEmpty()) {
+        if (baiviet.getLoaiBaiViet().getId()== 1) {
             try {
                 Map res = this.cloudinary.uploader().upload(baiviet.getFile().getBytes(),
                         ObjectUtils.asMap("resource_type", "auto"));
                 baiviet.setHinhAnh(res.get("secure_url").toString());
+
             } catch (IOException ex) {
-                System.err.println("== Update BaiViet ==" + ex.getMessage());
+                System.err.println("== UPDATE BaiViet ==" + ex.getMessage());
             }
+
         }
         return this.baivietRepo.updateBaiViet(baiviet);
+
     }
 
     @Override
-    public boolean deleteBaiViet(int id) {
-        return this.baivietRepo.deleteBaiViet(id);
-    }
-
-    @Override
-    public BaiViet addBaiVietAPI(Map<String, String> params 
-            , MultipartFile hinhanh) {
+    public BaiViet addBaiVietAPI(Map<String, String> params,
+            MultipartFile hinhanh) {
         BaiViet b = new BaiViet();
         b.setTenBaiViet(params.get("ten"));
         b.setNoiDung(params.get("noidung"));
@@ -150,12 +144,11 @@ public class BaiVietServiceImpl implements BaiVietService {
         List<LoaiBaiViet> listLBV = this.loaiBaiViet.getLoaiBaiViet();
         int usertypeId = Integer.parseInt(params.get("usertypeId"));
         for (LoaiBaiViet l : listLBV) {
-            if (usertypeId == 2 && l.getId() == 1) {  
+            if (usertypeId == 2 && l.getId() == 1) {
                 b.setLoaiBaiViet(l);
-            } else if(usertypeId == 3 && l.getId() == 2){
+            } else if (usertypeId == 3 && l.getId() == 2) {
                 b.setLoaiBaiViet(l);
-            }
-            else{
+            } else {
                 System.out.println("LỖI");
             }
         }
@@ -169,13 +162,60 @@ public class BaiVietServiceImpl implements BaiVietService {
             } catch (IOException ex) {
                 System.err.println("== ADD BaiViet ==" + ex.getMessage());
             }
-        }else if(hinhanh.isEmpty()){
+        } else if (hinhanh.isEmpty()) {
             b.setHinhAnh(null);
         }
-            
 
         this.baivietRepo.addBaiVietAPI(b);
         return b;
     }
 
+    @Override
+    public List<BaiViet> getBaiVietByGiaThue(BigDecimal gia) {
+        return this.baivietRepo.getBaiVietByGiaThue(gia);
+    }
+
+    @Override
+    public List<BaiViet> getBaiVietAll() {
+        return this.baivietRepo.getBaiVietAll();
+    }
+
+    @Override
+    public List<BaiViet> getBaiVietGia(Map<String, String> params) {
+        return this.baivietRepo.getBaiVietGia(params);
+    }
+
+    @Override
+    public List<BaiViet> getBaiVietGiaChuaDuyet() {
+        return this.baivietRepo.getBaiVietGiaChuaDuyet();
+    }
+
+    @Override
+    public boolean updateTrangThai(BaiViet idBaiViet) {
+        return this.baivietRepo.updateTrangThai(idBaiViet);
+    }
+
+    @Override
+    public void saveBaiViet(BaiViet baiviet) {
+        this.baivietRepo.saveBaiViet(baiviet);
+    }
+
+    @Override
+    public void deleteBaiVietByNguoiDung(NguoiDung nguoidung) {
+        this.baivietRepo.deleteBaiVietByNguoiDung(nguoidung);
+    }
+
+
+    @Override
+    public BaiViet getBaiVietById(int id) {
+        return this.baivietRepo.getBaiVietById(id);
+    }
+    public boolean deleteBaiViet(int id) {
+        return this.baivietRepo.deleteBaiViet(id);
+    }
+
+    public List<BaiViet> getBaiViet() {
+        return this.baivietRepo.getBaiViet();
+
+    }
 }

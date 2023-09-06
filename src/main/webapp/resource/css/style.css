@@ -209,7 +209,6 @@ input{
 }
 .trangcanhan-col1{
     width: 25%;
-    height: 250px;
 }
 .trangcanhan-col2 {
     width: 70%;
@@ -250,3 +249,4 @@ input{
     justify-content: space-between;
 
 }
+/*ADMIN*/

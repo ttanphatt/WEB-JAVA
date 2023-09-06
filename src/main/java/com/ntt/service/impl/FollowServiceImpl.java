@@ -19,27 +19,27 @@ import org.springframework.stereotype.Service;
  * @author ThanhThuyen
  */
 @Service
-public class FollowServiceImpl implements FollowService{
+public class FollowServiceImpl implements FollowService {
+
     @Autowired
     private FollowRepository followRepo;
     @Autowired
     private TaiKhoanRepository taikhoanRepo;
-    @Autowired 
+    @Autowired
     private BaiVietRepository baivietRepo;
+
     @Override
     public boolean addFollow(Follow follow) {
 //        BaiViet b=(BaiViet) this.baivietRepo.getBaiVietById(follow.getIdChuBaiViet());
-        NguoiDung n=this.taikhoanRepo.getTaiKhoanId(follow.getIdChuBaiViet());
+        NguoiDung n = this.taikhoanRepo.getTaiKhoanId(follow.getIdChuBaiViet());
         follow.setIdChuTro(n);
-        NguoiDung v=this.taikhoanRepo.getTaiKhoan(follow.getTenNguoiDangBai()).get(0);
+        NguoiDung v = this.taikhoanRepo.getTaiKhoan(follow.getTenNguoiDangBai()).get(0);
         follow.setIdKhachHang(v);
-        if(follow.getTrangThai()!="1"){
+        if (follow.getTrangThai() != "1") {
             follow.setTrangThai("0");
         }
-        
-        
-        
-       return followRepo.addFollow(follow);
+
+        return followRepo.addFollow(follow);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class FollowServiceImpl implements FollowService{
 
     @Override
     public List<Follow> getFollowsKhachHang(NguoiDung idKhachHang) {
-       return this.followRepo.getFollowsKhachHang(idKhachHang);
+        return this.followRepo.getFollowsKhachHang(idKhachHang);
     }
 
     @Override
@@ -59,12 +59,12 @@ public class FollowServiceImpl implements FollowService{
 
     @Override
     public void setTrangThaiFl(Follow follow) {
-       this.followRepo.setTrangThaiFl(follow);
+        this.followRepo.setTrangThaiFl(follow);
     }
 
     @Override
     public boolean deleteFollow(int id) {
-         return this.followRepo.deleteFollow(id);
+        return this.followRepo.deleteFollow(id);
     }
 
     @Override
@@ -74,8 +74,16 @@ public class FollowServiceImpl implements FollowService{
 
     @Override
     public List<Follow> getFollowsChuTro(NguoiDung idChuTro) {
-      return this.followRepo.getFollowsChuTro(idChuTro);
+        return this.followRepo.getFollowsChuTro(idChuTro);
     }
 
-    
+    @Override
+    public void deleteFollowByNguoiDungKH(NguoiDung nguoidung) {
+        this.followRepo.deleteFollowByNguoiDungKH(nguoidung);
+
+    }
+    @Override
+    public void deleteFollowByNguoiDung(NguoiDung nguoidung) {
+        this.followRepo.deleteFollowByNguoiDung(nguoidung);
+    }
 }

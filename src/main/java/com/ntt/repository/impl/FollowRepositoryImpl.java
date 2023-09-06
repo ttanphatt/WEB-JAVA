@@ -120,4 +120,22 @@ public class FollowRepositoryImpl implements FollowRepository {
         return q.getResultList();
     }
 
+    @Override
+    public void deleteFollowByNguoiDung(NguoiDung nguoidung) {
+         Session session = factory.getObject().getCurrentSession();
+        String hql = "DELETE FROM Follow bl WHERE bl.idChuTro = :nguoidung";
+        session.createQuery(hql)
+                .setParameter("nguoidung", nguoidung)
+                .executeUpdate();
+    }
+
+    @Override
+    public void deleteFollowByNguoiDungKH(NguoiDung nguoidung) {
+        Session session = factory.getObject().getCurrentSession();
+        String hql = "DELETE FROM Follow bl WHERE bl.idKhachHang = :nguoidung";
+        session.createQuery(hql)
+                .setParameter("nguoidung", nguoidung)
+                .executeUpdate();
+    }
+
 }

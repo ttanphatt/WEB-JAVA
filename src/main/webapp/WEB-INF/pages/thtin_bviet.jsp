@@ -17,12 +17,31 @@
 <c:url value="/thtin_bviet_fl" var="actionfl">
     <c:param name="baivietId" value="${BaiViet.id}" />  
 </c:url>
+<c:url value="/thtin_bviet_tt" var="actionTrangThai">
+    <c:param name="baivietId" value="${BaiViet.id}" />  
+</c:url>
+<c:url value="/thtin_bviet_tuchoi" var="actionTrangThaiTuChoi">
+    <c:param name="baivietId" value="${BaiViet.id}" />  
+</c:url>
+
+
+<c:if test="${BaiViet.loaiTrangThai.id==2}">
+    <form:form method="post" action="${actionTrangThai}">
+        <button class="btn btn-danger" type="submit">Xác nhận</button>
+    </form:form>
+    <form:form method="post" action="${actionTrangThaiTuChoi}">
+        <button class="btn btn-danger" type="submit">Từ chối</button>
+    </form:form>
+</c:if>
 <section class="chitiettin" >
     <div class="chitiettin-col1">
+        <c:if test="${BaiViet.loaiTrangThai.id==1}">
+            <input class="btn btn-info"  placeholder="Đã xác nhận" readonly="true"/>
+        </c:if>
         <div class="ct-anh">
+
             <center>
                 <img src="${BaiViet.hinhAnh}"" style="width:100%" > 
-
             </center>
         </div>
         <div class="ndung-chitiet">
@@ -32,6 +51,7 @@
                 <div class="chitiet-3tt">
                     <p>Giá: ${BaiViet.giaThue}</p>
                     <p>Diện tích: ${BaiViet.dienTich}</p>
+                    <p>Số người ở: ${BaiViet.soNguoi}</p>
                     <p> #${BaiViet.id}</p>
                 </div>
             </c:if>
@@ -54,38 +74,38 @@
                         <c:if test="${BaiViet.loaiBaiViet.id==2}">
                             <th>Khu vực cần tìm trọ:</th>
                             </c:if>
-                        <td>${BaiViet.phamViCanTim}</td>
+                        <td>${BaiViet.diaChiCt}</td>
                     </tr>
                     <tr>
                         <th>Ngày đăng:</th>
                         <td>${BaiViet.ngayDang}</td>
                     </tr>
-                    <tr>
-                        <th>Ngày hết hạn:</th>
-                        <td>${BaiViet.ngayDang}</td>
-                    </tr>
+
                 </table>
             </div>
 
         </div>
-        <c:if test="${pageContext.request.userPrincipal.name == null}">
-            <form:form method="post" action="${action}" var="p" modelAttribute="binhluan" enctype="multipart/form-data" >
+        <c:if test="${BaiViet.loaiTrangThai.id==1}">
+            <c:if test="${pageContext.request.userPrincipal.name == null}">
+                <form:form method="post" action="${action}" var="p" modelAttribute="binhluan" enctype="multipart/form-data" >
 
-                <form:input type="text" id="file" path="tenNguoiDangBai" value="${pageContext.request.userPrincipal.name}"  readonly="true"  cssClass="form -control"/>
-                <form:input type="text" id="file" path="idBaiVietBinhLuan" value="${BaiViet.id}"  readonly="true"  cssClass="form -control"/>
-                <form:input type="text" path="noiDung"/>
-                <input type="submit" value="Bình Luận" class="btn btn-danger" disabled/>
-            </form:form>
-        </c:if>
-        <c:if test="${pageContext.request.userPrincipal.name != null}">
-            <form:form method="post" action="${action}" var="p" modelAttribute="binhluan" enctype="multipart/form-data" >
+                    <form:input type="hidden" id="file" path="tenNguoiDangBai" value="${pageContext.request.userPrincipal.name}"  readonly="true"  cssClass="form -control"/>
+                    <form:input type="hidden" id="file" path="idBaiVietBinhLuan" value="${BaiViet.id}"  readonly="true"  cssClass="form -control"/>
+                    <form:input type="text" path="noiDung"/>
+                    <input type="submit" value="Bình Luận" class="btn btn-danger" disabled/>
+                </form:form>
+            </c:if>
 
-                <form:input type="text" id="file" path="tenNguoiDangBai" value="${pageContext.request.userPrincipal.name}"  readonly="true"  cssClass="form -control"/>
-                <form:input type="text" id="file" path="idBaiVietBinhLuan" value="${BaiViet.id}"  readonly="true"  cssClass="form -control"/>
+            <c:if test="${pageContext.request.userPrincipal.name != null}">
+                <form:form method="post" action="${action}" var="p" modelAttribute="binhluan" enctype="multipart/form-data" >
 
-                <form:input type="text" path="noiDung"/>
-                <input type="submit" value="Bình Luận" class="btn btn-danger"/>
-            </form:form>
+                    <form:input type="hidden" id="file" path="tenNguoiDangBai" value="${pageContext.request.userPrincipal.name}"  readonly="true"  cssClass="form -control"/>
+                    <form:input type="hidden" id="file" path="idBaiVietBinhLuan" value="${BaiViet.id}"  readonly="true"  cssClass="form -control"/>
+
+                    <form:input type="text" path="noiDung"/>
+                    <input type="submit" value="Bình Luận" class="btn btn-danger"/>
+                </form:form>
+            </c:if>
         </c:if>
     </div>
 
@@ -137,10 +157,6 @@
                     </c:otherwise>
                 </c:choose>
             </c:if>
-                                    
-
-
-
 
             <form:input type="hidden" id="file" path="tenNguoiDangBai" value="${pageContext.request.userPrincipal.name}"  readonly="true"  cssClass="form -control"/>
             <form:input type="hidden" id="file" path="idChuBaiViet" value="${BaiViet.idNguoiDung.id}"  readonly="true"   cssClass="form -control"/>
@@ -149,20 +165,44 @@
 
 
     </div>
+
+
     <div>
         <c:forEach items="${binhluans}" var="b">
+            <c:url value="/api/thtin_bvietBinhLuan/${b.id}" var="apiDelete"/>
             <div class="comtent row" style="border-width: 20px">
                 <div class="col-md-1">
                     <img src="${b.idNguoiDung.avatar}" style="width:80px" />
                 </div>
                 <div>
-                    <p>${b.idNguoiDung.tenNguoiDung}</p>  
-                    <p>${b.noiDung}</p>
+                    <p>${b.idNguoiDung.tenNguoiDung}</p>
+                    <p>
+                        <c:choose>
+                            <c:when test="${editingId eq b.id}">
+                            <form action="${pageContext.request.contextPath}/binhluan/thtin_bviet_edit" method="post">
+                                <input type="hidden" name="id" value="${b.id}" />
+                                <textarea name="editedNoiDung">${b.noiDung}</textarea>
+                                <button type="submit">Lưu thay đổi</button>
+                                <button type="button" onclick="cancelEditing()">Hủy</button>
+                            </form>
+                        </c:when>
+                        <c:otherwise>
+                            <div>
+                                ${b.noiDung}
+                            </div>
+                            <div class="edit-controls">
+                                <button class="btn btn-info text-center edit-button" onclick="enableEditMode('${b.id}')">Chỉnh sửa</button>
+                                <button class="btn btn-danger text-center" onclick="deleteBinhLuanwpr('${apiDelete}')">Xóa</button>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                    </p>
                     <p class="commentDate">${b.ngayBinhLuan}</p>
-                </div>  
+                </div>
             </div>
         </c:forEach>
     </div>
+
     <script>
         window.onload = function () {
             let dates = document.getElementsByClassName("commentDate")

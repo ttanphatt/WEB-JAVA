@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class ApiFollowController {
 
-    @Autowired
+    @Autowired 
     private FollowService followService;
 
     @DeleteMapping("/thtin_bviet/{id}")

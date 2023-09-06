@@ -11,6 +11,7 @@ import java.util.List;
  *
  * @author ThanhThuyen
  */
-public interface LoaiBaiVietService  {
+public interface LoaiBaiVietService {
     List<LoaiBaiViet> getLoaiBaiViet();
+    void deleteBaiVietById(int baiVietId);
 }

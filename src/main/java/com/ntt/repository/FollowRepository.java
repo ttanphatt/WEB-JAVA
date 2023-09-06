@@ -4,6 +4,7 @@
  */
 package com.ntt.repository;
 
+import com.ntt.pojo.BaiViet;
 import com.ntt.pojo.Follow;
 import com.ntt.pojo.NguoiDung;
 import java.util.List;
@@ -21,4 +22,6 @@ public interface FollowRepository {
     boolean deleteFollow(int id);
     Follow getFollowById(int idFollow);
     List<Follow>getFollowsChuTro(NguoiDung idChuTro);
+    void deleteFollowByNguoiDung(NguoiDung nguoidung);
+    void deleteFollowByNguoiDungKH(NguoiDung nguoidung);
 }

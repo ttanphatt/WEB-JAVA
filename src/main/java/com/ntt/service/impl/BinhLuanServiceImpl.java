@@ -27,6 +27,7 @@ public class BinhLuanServiceImpl implements BinhLuanService{
     private TaiKhoanRepository taikhoan;
     @Autowired
     private BaiVietRepository baiviet;
+    
     @Override
     public List<BinhLuan> getBinhLuan(int idBaiViet) {
         return this.binhluan.getBinhLuan(idBaiViet);
@@ -44,8 +45,48 @@ public class BinhLuanServiceImpl implements BinhLuanService{
     }
 
     @Override
-    public List<Object> getBinhLuanByBV(int bvId) {
-        return this.binhluan.getBinhLuanByBV(bvId);
+    public List<Object> getBinhLuanByBV(int idBaiViet) {
+        return this.binhluan.getBinhLuanByBV(idBaiViet);
+    }
+
+    @Override
+    public BinhLuan getBinhLuanById(int idBinhLuan) {
+        return this.binhluan.getBinhLuanById(idBinhLuan);
+    }
+
+    @Override
+    public boolean deleteBinhLuan(int id) {
+        return this.binhluan.deleteBinhLuan(id);
+    }
+
+    @Override
+    public boolean updateBinhLuan(BinhLuan binhLuan) {
+        return this.binhluan.updateBinhLuan(binhLuan);
+    }
+
+    @Override
+    public void saveBinhLuan(BinhLuan binhLuan) {
+        this.binhluan.saveBinhLuan(binhLuan);
+    }
+
+    @Override
+    public List<BinhLuan> getBinhLuanByNguoiDung(NguoiDung idNguoiDung) {
+        return this.binhluan.getBinhLuanByNguoiDung(idNguoiDung);
+    }
+
+    @Override
+    public void deleteBinhLuanByBaiViet(BaiViet baiviet) {
+        this.binhluan.deleteBinhLuanByBaiViet(baiviet);
+    }
+
+    @Override
+    public void deleteBinhLuanByNguoiDung(NguoiDung nguoidung) {
+        this.binhluan.deleteBinhLuanByNguoiDung(nguoidung);
+    }
+
+    @Override
+    public BinhLuan addOrUpdateBinhLuan(BinhLuan binhluan) {
+        return this.binhluan.addOrUpdateBinhLuan(binhluan);
     }
     
 }

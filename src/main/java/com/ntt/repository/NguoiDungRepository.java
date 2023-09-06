@@ -20,5 +20,6 @@ public interface NguoiDungRepository {
     NguoiDung addUser(NguoiDung user);
     Object getNgDungById(int id);
     NguoiDung doiMatKhau(NguoiDung a);
+    List<NguoiDung> getNgDungAll();
 
 }

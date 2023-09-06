@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author ThanhThuyen
+ * @author Admins
  */
 @Entity
 @Table(name = "follow")
@@ -33,34 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Follow.findByTrangThai", query = "SELECT f FROM Follow f WHERE f.trangThai = :trangThai")})
 public class Follow implements Serializable {
 
-    /**
-     * @return the tenNguoiDangBai
-     */
-    public String getTenNguoiDangBai() {
-        return tenNguoiDangBai;
-    }
-
-    /**
-     * @param tenNguoiDangBai the tenNguoiDangBai to set
-     */
-    public void setTenNguoiDangBai(String tenNguoiDangBai) {
-        this.tenNguoiDangBai = tenNguoiDangBai;
-    }
-
-    /**
-     * @return the idChuBaiViet
-     */
-    public Integer getIdChuBaiViet() {
-        return idChuBaiViet;
-    }
-
-    /**
-     * @param idChuBaiViet the idChuBaiViet to set
-     */
-    public void setIdChuBaiViet(Integer idChuBaiViet) {
-        this.idChuBaiViet = idChuBaiViet;
-    }
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,12 +42,6 @@ public class Follow implements Serializable {
     @Size(max = 45)
     @Column(name = "trang_thai")
     private String trangThai;
-    
-        @Transient
-    private String tenNguoiDangBai;
-    @Transient
-    private Integer idChuBaiViet;
-    
     @JoinColumn(name = "id_chu_tro", referencedColumnName = "id")
     @ManyToOne
     private NguoiDung idChuTro;
@@ -83,6 +49,11 @@ public class Follow implements Serializable {
     @ManyToOne
     private NguoiDung idKhachHang;
 
+    @Transient
+    private String tenNguoiDangBai;
+    @Transient
+    private Integer idChuBaiViet;
+    
     public Follow() {
     }
 
@@ -145,6 +116,34 @@ public class Follow implements Serializable {
     @Override
     public String toString() {
         return "com.ntt.pojo.Follow[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the tenNguoiDangBai
+     */
+    public String getTenNguoiDangBai() {
+        return tenNguoiDangBai;
+    }
+
+    /**
+     * @param tenNguoiDangBai the tenNguoiDangBai to set
+     */
+    public void setTenNguoiDangBai(String tenNguoiDangBai) {
+        this.tenNguoiDangBai = tenNguoiDangBai;
+    }
+
+    /**
+     * @return the idChuBaiViet
+     */
+    public Integer getIdChuBaiViet() {
+        return idChuBaiViet;
+    }
+
+    /**
+     * @param idChuBaiViet the idChuBaiViet to set
+     */
+    public void setIdChuBaiViet(Integer idChuBaiViet) {
+        this.idChuBaiViet = idChuBaiViet;
     }
     
 }

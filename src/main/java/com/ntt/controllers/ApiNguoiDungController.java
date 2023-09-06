@@ -68,8 +68,11 @@ public class ApiNguoiDungController {
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @CrossOrigin
-    public ResponseEntity<NguoiDung> addUser(@RequestParam Map<String, String> params, @RequestPart MultipartFile avatar) {
+    public ResponseEntity<NguoiDung> addUser(@RequestParam Map<String, String> params,
+            @RequestPart MultipartFile avatar) {
+//            , @RequestPart MultipartFile hinhAnh) {
         NguoiDung user = this.userService.addUser(params, avatar);
+
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
@@ -96,9 +99,9 @@ public class ApiNguoiDungController {
         Object ngdungJson = objectMapper.writeValueAsString(b);
         return new ResponseEntity<>(ngdungJson, HttpStatus.OK);
     }
-    
-   @PostMapping("/doimatkhau/")
-   @CrossOrigin
+
+    @PostMapping("/doimatkhau/")
+    @CrossOrigin
     public ResponseEntity<NguoiDung> changePassword(@RequestParam Map<String, String> params) {
         if (this.userService.authUser(params.get("tenTaiKhoan").toString(), params.get("matKhau").toString()) == true) {
             NguoiDung ngdung = userService.doiMatKhau(params);
@@ -108,6 +111,12 @@ public class ApiNguoiDungController {
         return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
+    @GetMapping("/gettaikhoanbytentk/")
+    @CrossOrigin
+    public ResponseEntity<List<NguoiDung>> list() {
+        List<NguoiDung> ngdung = this.userService.getNgDungAll();
+        return new ResponseEntity<>(ngdung, HttpStatus.OK);
 
-    
+    }
+
 }

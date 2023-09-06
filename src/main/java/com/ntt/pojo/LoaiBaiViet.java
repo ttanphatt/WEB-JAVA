@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ThanhThuyen
+ * @author Admins
  */
 @Entity
 @Table(name = "loai_bai_viet")
@@ -103,5 +103,5 @@ public class LoaiBaiViet implements Serializable {
     public String toString() {
         return "com.ntt.pojo.LoaiBaiViet[ id=" + id + " ]";
     }
-
+    
 }

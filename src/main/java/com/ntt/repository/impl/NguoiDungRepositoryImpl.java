@@ -89,7 +89,14 @@ public class NguoiDungRepositoryImpl implements NguoiDungRepository {
         Session s = this.factory.getObject().getCurrentSession();
         s.update(a);
         return a;
-        
+
+    }
+
+    @Override
+    public List<NguoiDung> getNgDungAll() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("From NguoiDung");
+        return q.getResultList();
     }
 
 }

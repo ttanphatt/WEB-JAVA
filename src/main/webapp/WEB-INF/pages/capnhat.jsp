@@ -5,13 +5,17 @@
 --%>
 
 
+<%@page import="java.awt.image.BufferedImage"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ page import="java.io.*, java.net.URL, javax.imageio.ImageIO" %>
+
 <link href="<c:url value="/css/style.css" />" rel="stylesheet" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
-<c:url value="/capnhat1" var="updateAction">
+<c:url value="/capnhat" var="updateAction">
 </c:url>
 <html>
     <h1>CAP NHAT</h1>
@@ -20,7 +24,7 @@
         <div class="chitiettin-col1">
             <div class="ct-anh">
                 <center>
-                    <img src="${BaiViet.hinhAnh}"" style="width:100%" > 
+                    <img src="${BaiViet.hinhAnh}"  style="width:100%" > 
 
                 </center>
             </div>
@@ -29,6 +33,7 @@
                     <form:hidden path="id" />
                     <form:hidden path="loaiBaiViet.id"/>
                     <form:hidden path="idNguoiDung.id"/>
+                    <form:hidden path="hinhAnh"/>
 
 
                     <div class="dangbai-tinnhaplieu">
@@ -36,14 +41,14 @@
                             <p>Loại bài viết </p>
                             ${BaiViet.loaiBaiViet.id}
                         </div>
-                        
+
                         <div class="input-bigsize">
                             <p>Tiêu đề bài đăng </p>
                             <form:input type="text" id="tenbv" name="tenbv" path="tenBaiViet" placeholder="Tiêu đề bài đăng"/>
                         </div>
                         <div class="input-bigsize">
                             <p>Ngày đăng: </p>
-                            <form:input type="text" id="ngaydangbv" name="ngaydangbv" path="ngayDang"  placeholder="Format yyyy/mm/dd (VD: 2023-05-22)" disabled="true"/>
+                            <form:input type="text" id="ngaydangbv" name="ngaydangbv" path="ngayDang" placeholder="Format yyyy/mm/dd (VD: 2023-05-22)" disabled="true"/>
                         </div>
                         <!--BÀI CỦA CHỦ TRỌ-->
                         <c:if test="${BaiViet.idNguoiDung.idLoaiTaiKhoan.id==2}">
@@ -56,7 +61,6 @@
                                 <div class="input-smallsize1">
                                     <p>Giá cho thuê </p>
                                     <form:input type="text" id="giathuebv" name="giathuebv" path="giaThue" placeholder="Nhập giá thuê (VD: 3000000)"  /> 
-
                                 </div>
                             </div>
                             <div class="input-smallsize">
@@ -89,38 +93,27 @@
                                         reader.readAsDataURL(fileInput.files[0]);
                                     }
                                 }
-
-
                             </script>
+
                             <div>
                                 <p for="file">Hình ảnh phòng trọ: </p>
-                                <img src =""  id="image" width="200" height="200"/>
-
-                                <form:input path="file" type="file" id="imageFile" name="imageFile" onchange="chooseFile(this)" accept="image/jpg, image/jpeg, image/png"/>
-                            </div> 
+                                <form:input path="file" type="file" id="imageFile" name="imageFile" onchange="chooseFile(this)"  accept="image/jpg, image/jpeg, image/png"/>
+                            </div>
 
                         </c:if>
-                            
+
                         <!--BÀI CỦA KHÁCH HÀNG-->
-                        <c:if test="${nguoidung.idLoaiTaiKhoan.id==3}">
+                        <c:if test="${BaiViet.loaiBaiViet.id==2}">
                             <div>                            
                                 <p>Phạm vi cần tìm: </p>
                                 <form:input type="text" id="khuvucbv" name="khuvucbv" path="phamViCanTim"/>
                             </div>
-                            <div>
-                                <p for="file">Hình ảnh phòng trọ: </p>
-                                <img src =""  id="image" width="200" height="200"/>
 
-                                <form:input path="file" type="file" id="imageFile" name="imageFile" onchange="chooseFile(this)" accept="image/jpg, image/jpeg, image/png"/>
-                            </div> 
+                            <div class="input-bigsize">
+                                <p>Mô tả chi tiết</p>     
+                                <form:textarea  type="text" id="motabv" name="motabv"  path="noiDung" placeholder="Mô tả chi tiết"/>
+                            </div>
                         </c:if>
-                        
-                        
-                        
-                        <div class="input-bigsize">
-                            <p>Mô tả chi tiết</p>     
-                            <form:textarea  type="text" id="motabv" name="motabv"  path="noiDung" placeholder="Mô tả chi tiết"/>
-                        </div>
 
                     </div>
                     <button class="btn btn-info " type="sumit">Cập nhật</button>
@@ -186,4 +179,23 @@
 
 
     </section>
+    <script>
+// Lấy đối tượng trường ngaydangbv
+        var ngayDangField = document.getElementById("ngaydangbv");
+
+// Tạo một đối tượng Date chứa ngày hiện tại
+        var currentDate = new Date();
+
+// Định dạng ngày hiện tại thành yyyy-mm-dd
+        var formattedDate = currentDate.toISOString().slice(0, 10);
+
+// Gán giá trị đã định dạng vào trường ngayDang
+        ngayDangField.value = formattedDate;
+    </script>
+
+
+
+
+
+
 </html>

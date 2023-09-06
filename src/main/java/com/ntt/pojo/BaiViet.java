@@ -5,7 +5,6 @@
 package com.ntt.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -32,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author ThanhThuyen
+ * @author Admins
  */
 @Entity
 @Table(name = "bai_viet")
@@ -51,79 +50,12 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "BaiViet.findByHinhAnh1", query = "SELECT b FROM BaiViet b WHERE b.hinhAnh1 = :hinhAnh1"),
     @NamedQuery(name = "BaiViet.findByHinhAnh2", query = "SELECT b FROM BaiViet b WHERE b.hinhAnh2 = :hinhAnh2"),
     @NamedQuery(name = "BaiViet.findByHinhAnh3", query = "SELECT b FROM BaiViet b WHERE b.hinhAnh3 = :hinhAnh3")})
+
 public class BaiViet implements Serializable {
 
-    /**
-     * @return the file
-     */
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    /**
-     * @param file the file to set
-     */
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
-
-    /**
-     * @return the file1
-     */
-    public MultipartFile getFile1() {
-        return file1;
-    }
-
-    /**
-     * @param file1 the file1 to set
-     */
-    public void setFile1(MultipartFile file1) {
-        this.file1 = file1;
-    }
-
-    /**
-     * @return the file2
-     */
-    public MultipartFile getFile2() {
-        return file2;
-    }
-
-    /**
-     * @param file2 the file2 to set
-     */
-    public void setFile2(MultipartFile file2) {
-        this.file2 = file2;
-    }
-
-    /**
-     * @return the file3
-     */
-    public MultipartFile getFile3() {
-        return file3;
-    }
-
-    /**
-     * @param file3 the file3 to set
-     */
-    public void setFile3(MultipartFile file3) {
-        this.file3 = file3;
-    }
-
-    /**
-     * @return the tenNguoiDangBai
-     */
-    public String getTenNguoiDangBai() {
-        return tenNguoiDangBai;
-    }
-
-    /**
-     * @param tenNguoiDangBai the tenNguoiDangBai to set
-     */
-    public void setTenNguoiDangBai(String tenNguoiDangBai) {
-        this.tenNguoiDangBai = tenNguoiDangBai;
-    }
-
-    private static final long serialVersionUID = 1L;
+    
+    
+    private static long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -164,16 +96,7 @@ public class BaiViet implements Serializable {
     @Size(max = 500)
     @Column(name = "hinh_anh3")
     private String hinhAnh3;
-    @Transient
-    private MultipartFile file;
-    @Transient
-    private MultipartFile file1;
-    @Transient
-    private MultipartFile file2;
-    @Transient
-    private MultipartFile file3;
-    @Transient
-    private String tenNguoiDangBai;
+
     @OneToMany(mappedBy = "idBaiViet")
     @JsonIgnore
     private Set<BinhLuan> binhLuanSet;
@@ -189,6 +112,22 @@ public class BaiViet implements Serializable {
     @JoinColumn(name = "id_nguoi_dung", referencedColumnName = "id")
     @ManyToOne
     private NguoiDung idNguoiDung;
+    @JoinColumn(name = "loai_trang_thai", referencedColumnName = "id")
+    @ManyToOne
+    private TrangThaiBaiViet loaiTrangThai;
+
+    
+    @Transient
+    private MultipartFile file;
+    @Transient
+    private MultipartFile file1;
+    @Transient
+    private MultipartFile file2;
+    @Transient
+    private MultipartFile file3;
+    @Transient
+    private String tenNguoiDangBai;
+
 
     public BaiViet() {
     }
@@ -196,6 +135,34 @@ public class BaiViet implements Serializable {
     public BaiViet(Integer id) {
         this.id = id;
     }
+
+    public BaiViet(Integer id, String tenBaiViet, String hinhAnh, String noiDung, String phamViCanTim, Date ngayDang, Integer soNguoi, Long giaThue, String dienTich, String diaChiCt, String hinhAnh1, String hinhAnh2, String hinhAnh3, Set<BinhLuan> binhLuanSet, Set<HinhAnh> hinhAnhSet, Set<ThongBao> thongBaoSet, LoaiBaiViet loaiBaiViet, NguoiDung idNguoiDung, TrangThaiBaiViet loaiTrangThai, MultipartFile file, MultipartFile file1, MultipartFile file2, MultipartFile file3, String tenNguoiDangBai) {
+        this.id = id;
+        this.tenBaiViet = tenBaiViet;
+        this.hinhAnh = hinhAnh;
+        this.noiDung = noiDung;
+        this.phamViCanTim = phamViCanTim;
+        this.ngayDang = ngayDang;
+        this.soNguoi = soNguoi;
+        this.giaThue = giaThue;
+        this.dienTich = dienTich;
+        this.diaChiCt = diaChiCt;
+        this.hinhAnh1 = hinhAnh1;
+        this.hinhAnh2 = hinhAnh2;
+        this.hinhAnh3 = hinhAnh3;
+        this.binhLuanSet = binhLuanSet;
+        this.hinhAnhSet = hinhAnhSet;
+        this.thongBaoSet = thongBaoSet;
+        this.loaiBaiViet = loaiBaiViet;
+        this.idNguoiDung = idNguoiDung;
+        this.loaiTrangThai = loaiTrangThai;
+        this.file = file;
+        this.file1 = file1;
+        this.file2 = file2;
+        this.file3 = file3;
+        this.tenNguoiDangBai = tenNguoiDangBai;
+    }
+    
 
     public Integer getId() {
         return id;
@@ -344,6 +311,14 @@ public class BaiViet implements Serializable {
         this.idNguoiDung = idNguoiDung;
     }
 
+    public TrangThaiBaiViet getLoaiTrangThai() {
+        return loaiTrangThai;
+    }
+
+    public void setLoaiTrangThai(TrangThaiBaiViet loaiTrangThai) {
+        this.loaiTrangThai = loaiTrangThai;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -369,4 +344,89 @@ public class BaiViet implements Serializable {
         return "com.ntt.pojo.BaiViet[ id=" + id + " ]";
     }
 
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
+    /**
+     * @return the file1
+     */
+    public MultipartFile getFile1() {
+        return file1;
+    }
+
+    /**
+     * @param file1 the file1 to set
+     */
+    public void setFile1(MultipartFile file1) {
+        this.file1 = file1;
+    }
+
+    /**
+     * @return the file2
+     */
+    public MultipartFile getFile2() {
+        return file2;
+    }
+
+    /**
+     * @param file2 the file2 to set
+     */
+    public void setFile2(MultipartFile file2) {
+        this.file2 = file2;
+    }
+
+    /**
+     * @return the file3
+     */
+    public MultipartFile getFile3() {
+        return file3;
+    }
+
+    /**
+     * @param file3 the file3 to set
+     */
+    public void setFile3(MultipartFile file3) {
+        this.file3 = file3;
+    }
+
+    /**
+     * @return the tenNguoiDangBai
+     */
+    public String getTenNguoiDangBai() {
+        return tenNguoiDangBai;
+    }
+
+    /**
+     * @param tenNguoiDangBai the tenNguoiDangBai to set
+     */
+    public void setTenNguoiDangBai(String tenNguoiDangBai) {
+        this.tenNguoiDangBai = tenNguoiDangBai;
+    }
+
+    /**
+     * @return the serialVersionUID
+     */
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    /**
+     * @param aSerialVersionUID the serialVersionUID to set
+     */
+    public static void setSerialVersionUID(long aSerialVersionUID) {
+        serialVersionUID = aSerialVersionUID;
+    }
+
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+    
 }

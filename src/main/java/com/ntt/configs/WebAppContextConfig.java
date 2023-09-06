@@ -8,11 +8,17 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.ntt.formatter.LoaiBaiVietFormatter;
 import com.ntt.formatter.LoaiTaiKhoanFormatter;
+import com.ntt.formatter.LoaiTrangThaiFormatter;
+import com.ntt.pojo.TrangThaiBaiViet;
+import java.util.Properties;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -20,6 +26,8 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 /**
  *
@@ -41,7 +49,7 @@ public class WebAppContextConfig implements WebMvcConfigurer {
             DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
-    
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -62,9 +70,6 @@ public class WebAppContextConfig implements WebMvcConfigurer {
 //        resolver.setSuffix(".jsp");
 //        return resolver;
 //    }
-    
-   
-    
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**").addResourceLocations("/resource/css/");
@@ -94,10 +99,26 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         return c;
     }
     
+    @Bean 
+    public JavaMailSender javaMailSender(){
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("2051050488thuyen@ou.edu.vn");
+        mailSender.setPassword("thuyen22052002##");
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        mailSender.setJavaMailProperties(properties);
 
-    @Override
+        return mailSender;  
+    
+    }
+
+     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new LoaiTaiKhoanFormatter());
         registry.addFormatter(new LoaiBaiVietFormatter());
+        registry.addFormatter(new LoaiTrangThaiFormatter());
     }
 }
